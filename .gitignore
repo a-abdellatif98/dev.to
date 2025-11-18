@@ -45,6 +45,7 @@ yarn-debug.log*
 .env.test.local
 .env.development*
 .env
+.env.bak
 
 # Ignore storybook static site generation
 app/javascript/storybook-static/
