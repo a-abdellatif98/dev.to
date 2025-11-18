@@ -169,7 +169,7 @@ RUN bash -c yarn install --dev
 # Document that we're going to expose port 3000
 EXPOSE 3000
 # Use Bash as the default command
-CMD ["/usr/bin/bash"]
+CMD ["/bin/bash"]
 
 ## Development
 FROM base AS development
@@ -194,8 +194,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 
 ARG PG_MAJOR
 RUN curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgres-archive-keyring.gpg \
-  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/postgres-archive-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/" \
-    $(lsb_release -cs)-pgdg main $PG_MAJOR | tee /etc/apt/sources.list.d/postgres.list > /dev/null
+  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/postgres-archive-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" | tee /etc/apt/sources.list.d/postgres.list > /dev/null
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt,sharing=locked \
   --mount=type=tmpfs,target=/var/log \
@@ -244,4 +243,4 @@ WORKDIR /app
 # Document that we're going to expose port 3000
 EXPOSE 3000
 # Use Bash as the default command
-CMD ["/usr/bin/bash"]
+CMD ["/bin/bash"]

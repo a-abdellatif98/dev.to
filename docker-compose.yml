@@ -29,9 +29,12 @@ x-backend: &backend
   environment: &backend_environment
     <<: *env
     CHROME_URL: http://chrome:3333
-    REDIS_URL: redis://localhost:6379/
-    DATABASE_URL: postgres://postgres:postgres@localhost:5432
-    DATABASE_URL_TEST: postgres://postgres:postgres@localhost:5432
+    REDIS_URL: redis://redis:6379/
+    REDIS_SESSIONS_URL: redis://redis:6379/
+    REDIS_SIDEKIQ_URL: redis://redis:6379/
+    REDIS_RPUSH_URL: redis://redis:6379/
+    DATABASE_URL: postgres://postgres:postgres@postgres:5432
+    DATABASE_URL_TEST: postgres://postgres:postgres@postgres:5432
     MALLOC_ARENA_MAX: 2
     WEB_CONCURRENCY: ${WEB_CONCURRENCY:-1}
     BOOTSNAP_CACHE_DIR: /usr/local/bundle/_bootsnap
@@ -101,20 +104,18 @@ services:
     environment:
       PSQL_HISTFILE: /usr/local/hist/.psql_history
       POSTGRES_PASSWORD: postgres
-    network_mode: host
     ports:
-      - 5432
+      - "5432:5432"
     healthcheck:
-      test: pg_isready -U postgres -h 127.0.0.1
+      test: pg_isready -U postgres -h localhost
       interval: 5s
 
   redis:
     image: redis:7.0-alpine
     volumes:
       - redis:/data
-    network_mode: host
     ports:
-      - 6379
+      - "6379:6379"
     healthcheck:
       test: redis-cli ping
       interval: 1s
