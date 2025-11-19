@@ -103,6 +103,7 @@ class RateLimitChecker
   end
 
   def check_comment_antispam_creation_limit
+    return false
     # TODO: We should make this time frame configurable.
     user.comments.where(created_at: 5.minutes.ago...).size >
       Settings::RateLimit.comment_antispam_creation

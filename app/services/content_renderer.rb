@@ -12,11 +12,11 @@ class ContentRenderer
   # @param source [optional, possibly Article, Comment, Billboard]
   # @param user [User, NilClass] article's or comment's user, nil for Billboard
   # @param fixer [Object] fixes the input markdown
-  def initialize(input, source: nil, user: nil, fixer: MarkdownProcessor::Fixer::FixAll)
+  def initialize(input, source: nil, user: nil, fixer: nil)
     @input = input || ""
     @source = source
     @user = user
-    @fixer = fixer
+    @fixer = fixer || MarkdownProcessor::Fixer::FixAll
   end
 
   # @param link_attributes [Hash] options passed further to RedCarpet::Render::HTMLRouge, example: { rel: "nofollow"}
